@@ -21,7 +21,7 @@ export class Monster extends Base {
         modelClass: Battle,
         join: {
           from: 'monster.id',
-          to: 'battle.monsterAId',
+          to: 'battle.monsterA',
         },
       },
     };

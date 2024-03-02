@@ -16,7 +16,7 @@ export class Battle extends Base {
         relation: Base.BelongsToOneRelation,
         modelClass: Monster,
         join: {
-          from: 'battle.monsterAId',
+          from: 'battle.monsterA',
           to: 'monster.id',
         },
       },
@@ -24,7 +24,7 @@ export class Battle extends Base {
         relation: Base.BelongsToOneRelation,
         modelClass: Monster,
         join: {
-          from: 'battle.monsterBId',
+          from: 'battle.monsterB',
           to: 'monster.id',
         },
       },
@@ -32,7 +32,7 @@ export class Battle extends Base {
         relation: Base.BelongsToOneRelation,
         modelClass: Monster,
         join: {
-          from: 'battle.winnerId',
+          from: 'battle.winner',
           to: 'monster.id',
         },
       },
