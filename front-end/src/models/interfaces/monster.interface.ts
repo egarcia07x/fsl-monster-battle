@@ -1,5 +1,5 @@
 export interface Monster {
-  id: number;
+  id: string;
   name: string;
   attack: number;
   defense: number;

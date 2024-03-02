@@ -8,13 +8,16 @@ import { fetchMonstersData } from '../../store/actions/monsters.actions';
 import {
   selectMonsters,
   selectSelectedMonster,
-} from '../../store/reducers/monsters.selectors';
+} from '../../store/selectors/monsters.selectors';
 import {
   BattleSection,
   PageContainer,
   StartBattleButton,
 } from './BattleOfMonsters.styled';
 import { Monster } from '../../models/interfaces/monster.interface';
+import { selectBattle } from '../../store/selectors/battles.selectors';
+import { postBattle, resetBattle } from '../../store/actions/battles.actions';
+import { WinnerDisplay } from '../../components/winner-display/WinnerDisplay';
 
 const BattleOfMonsters = () => {
   const dispatch = useAppDispatch();
@@ -22,25 +25,42 @@ const BattleOfMonsters = () => {
 
   const monsters = useSelector(selectMonsters);
   const selectedMonster = useSelector(selectSelectedMonster);
+  const { battle, pending: battlePending } = useSelector(selectBattle);
 
   useEffect(() => {
     dispatch(fetchMonstersData());
   }, [dispatch]);
 
   useEffect(() => {
-    console.log('selectedMonster', selectedMonster);
     if (selectedMonster) {
-      const availableMonsters = monsters.filter(
-        ({ id }) => id !== selectedMonster.id,
-      );
-      const n = availableMonsters.length;
-      const idx = Math.floor(n * Math.random());
-      setComputerMonster(availableMonsters[idx]);
+      updateComputerMonster(selectedMonster, monsters);
     }
-  }, [monsters, selectedMonster]);
+
+    dispatch(resetBattle());
+  }, [monsters, selectedMonster, dispatch]);
+
+  const updateComputerMonster = (
+    selectedMonster: Monster,
+    monsters: Monster[],
+  ) => {
+    const availableMonsters = monsters.filter(
+      ({ id }) => id !== selectedMonster.id,
+    );
+    const n = availableMonsters.length;
+    const idx = Math.floor(n * Math.random());
+    setComputerMonster(availableMonsters[idx]);
+  };
 
   const handleStartBattleClick = () => {
-    // Fight!
+    if (!selectedMonster || !computerMonster) {
+      return;
+    }
+    dispatch(
+      postBattle({
+        monsterAId: selectedMonster.id,
+        monsterBId: computerMonster.id,
+      }),
+    );
   };
 
   return (
@@ -49,6 +69,8 @@ const BattleOfMonsters = () => {
 
       <MonstersList monsters={monsters} />
 
+      {!!battle && <WinnerDisplay text={battle.winner.name} />}
+
       <BattleSection>
         <MonsterBattleCard
           title={selectedMonster?.name || 'Player'}
@@ -56,7 +78,7 @@ const BattleOfMonsters = () => {
         />
         <StartBattleButton
           data-testid="start-battle-button"
-          disabled={selectedMonster === null}
+          disabled={selectedMonster === null || battlePending}
           onClick={handleStartBattleClick}>
           Start Battle
         </StartBattleButton>

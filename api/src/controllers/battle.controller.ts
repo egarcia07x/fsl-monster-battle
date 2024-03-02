@@ -13,24 +13,26 @@ const create = async (req: Request, res: Response): Promise<Response> => {
     const { monsterAId, monsterBId } = req.body;
 
     const monsters = await Monster.query().findByIds([monsterAId, monsterBId]);
-    if (monsters.length !== 2) {
+    const monsterA = monsters.find(({ id }) => id === monsterAId);
+    const monsterB = monsters.find(({ id }) => id === monsterBId);
+
+    if (!monsterA || !monsterB) {
       throw new Error(
         `Cannot find 2 monsters related to ids: ${monsterAId} and ${monsterBId}`
       );
     }
+
     const winner = calcBattleWinner(monsters as [Monster, Monster]);
-    const monsterA = monsters.find(({ id }) => id === monsterAId);
-    const monsterB = monsters.find(({ id }) => id === monsterBId);
 
     const battle = await Battle.query().insert({
-      monsterA,
-      monsterB,
-      winner,
+      monsterA: monsterA,
+      monsterB: monsterB,
+      winner: winner,
     });
 
     return res
       .status(201)
-      .json({ message: 'Battle created successfully', battle });
+      .json({ message: 'Battle created successfully', data: battle });
   } catch (error) {
     console.error('Error creating battle:', error);
     return res.status(500).json({ error: 'Internal Server Error' });

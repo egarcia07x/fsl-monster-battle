@@ -17,7 +17,7 @@ const fields = [
   },
   {
     name: 'attack',
-    label: 'Attach',
+    label: 'Attack',
   },
   {
     name: 'defense',
