@@ -1,5 +1,5 @@
 import { MonsterService } from './monsters.service';
-import monstersData from '../../../../data/monsters.json';
+import monstersData from '../../../data/monsters.json';
 
 describe('Monsters Service', () => {
   it('should return the monsters list empty', async () => {

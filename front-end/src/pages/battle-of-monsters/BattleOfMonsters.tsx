@@ -4,11 +4,11 @@ import { useAppDispatch } from '../../app/hooks';
 import { MonsterBattleCard } from '../../components/monster-battle-card/MonsterBattleCard';
 import { MonstersList } from '../../components/monsters-list/MonstersList';
 import { Title } from '../../components/title/Title';
-import { fetchMonstersData } from '../../reducers/monsters/monsters.actions';
+import { fetchMonstersData } from '../../store/actions/monsters.actions';
 import {
   selectMonsters,
   selectSelectedMonster,
-} from '../../reducers/monsters/monsters.selectors';
+} from '../../store/reducers/monsters.selectors';
 import {
   BattleSection,
   PageContainer,

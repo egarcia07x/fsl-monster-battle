@@ -1,4 +1,4 @@
-import { RootState } from '../../app/store';
+import { RootState } from '..';
 
 export const selectMonsters = (state: RootState) => state.monsters.monsters;
 

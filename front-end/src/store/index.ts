@@ -1,5 +1,5 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import { monstersReducer } from '../reducers/monsters/monsters.reducer';
+import { monstersReducer } from './reducers/monsters.reducer';
 
 export const store = configureStore({
   reducer: {

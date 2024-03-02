@@ -1,5 +1,8 @@
-import { fetchMonstersData, setSelectedMonster } from './monsters.actions';
-import { monstersReducer } from './monsters.reducer';
+import {
+  fetchMonstersData,
+  setSelectedMonster,
+} from '../actions/monsters.actions';
+import { monstersReducer } from '../reducers/monsters.reducer';
 import monstersData from '../../../../data/monsters.json';
 
 describe('Monsters Reducer', () => {
