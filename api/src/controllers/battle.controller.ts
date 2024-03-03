@@ -13,9 +13,9 @@ const create = async (req: Request, res: Response): Promise<Response> => {
   try {
     const { monsterAId, monsterBId } = req.body || {};
 
-    if (!monsterAId || !monsterBId) {
+    if (monsterAId === undefined || monsterBId === undefined) {
       return res
-        .status(400)
+        .status(StatusCodes.BAD_REQUEST)
         .json({ message: 'monsterAId/monsterBId should not be undefined' });
     }
 
@@ -24,11 +24,9 @@ const create = async (req: Request, res: Response): Promise<Response> => {
     const monsterB = monsters.find(({ id }) => id === monsterBId);
 
     if (!monsterA || !monsterB) {
-      return res
-        .status(404)
-        .json({
-          message: `Cannot find 2 monsters related to ids: ${monsterAId} and ${monsterBId}`,
-        });
+      return res.status(StatusCodes.NOT_FOUND).json({
+        message: `Cannot find 2 monsters related to ids: ${monsterAId} and ${monsterBId}`,
+      });
     }
 
     const winner = calcBattleWinner(monsters as [Monster, Monster]);
@@ -47,14 +45,18 @@ const create = async (req: Request, res: Response): Promise<Response> => {
     };
 
     return res
-      .status(201)
+      .status(StatusCodes.CREATED)
       .json({ message: 'Battle created successfully', data: battle });
   } catch (error) {
     console.error('Error creating battle:', error);
     if (error instanceof Error) {
-      return res.status(500).json({ error: error.message });
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ error: error.message });
     }
-    return res.status(500).json({ error: 'Inertnal Server Error' });
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ error: 'Inertnal Server Error' });
   }
 };
 
