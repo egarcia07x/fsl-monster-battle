@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import { monstersReducer } from '../reducers/monsters/monsters.reducer';
+import { monstersReducer } from './reducers/monsters.reducer';
+import { battleReducer } from './reducers/battles.reducer';
 
 export const store = configureStore({
   reducer: {
     monsters: monstersReducer,
+    battles: battleReducer,
   },
 });
 

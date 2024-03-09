@@ -1,0 +1,39 @@
+import { createReducer } from '@reduxjs/toolkit';
+import { Battle } from '../../models/interfaces/battle.interface';
+import { postBattle, resetBattle } from '../actions/battles.actions';
+
+interface BattleState {
+  battle: Battle | null;
+  pending: boolean;
+}
+
+const initialState: BattleState = {
+  battle: null,
+  pending: false,
+};
+
+export const battleReducer = createReducer(initialState, (builder) => {
+  builder.addCase(postBattle.pending, (state) => ({
+    ...state,
+    pending: true,
+    battle: null,
+  }));
+
+  builder.addCase(postBattle.rejected, (state) => ({
+    ...state,
+    pending: false,
+    battle: null,
+  }));
+
+  builder.addCase(postBattle.fulfilled, (state, action) => ({
+    ...state,
+    pending: false,
+    battle: action.payload,
+  }));
+
+  builder.addCase(resetBattle, (state) => ({
+    ...state,
+    pending: false,
+    battle: null,
+  }));
+});

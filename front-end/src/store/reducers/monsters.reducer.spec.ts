@@ -1,4 +1,7 @@
-import { fetchMonstersData, setSelectedMonster } from './monsters.actions';
+import {
+  fetchMonstersData,
+  setSelectedMonster,
+} from '../actions/monsters.actions';
 import { monstersReducer } from './monsters.reducer';
 import monstersData from '../../../../data/monsters.json';
 
