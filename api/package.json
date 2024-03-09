@@ -17,7 +17,7 @@
     "prettier": "./node_modules/.bin/prettier --write \"{src,knex}/**/*.ts\"",
     "pretest": "cross-env NODE_ENV=test npm run db:rollback:all && cross-env NODE_ENV=test npm run db:migrate",
     "pretest:CI": "cross-env NODE_ENV=test npm run db:migrate",
-    "test": "jest --env=node",
+    "test": "cross-env NODE_ENV=test jest --env=node",
     "test:CI": "cross-env NODE_OPTIONS=\"--max-old-space-size=3072\" jest --maxWorkers=2",
     "watch": "jest --watchAll",
     "knex": "npm run ts-node node_modules/knex/bin/cli.js",

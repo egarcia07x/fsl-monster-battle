@@ -15,7 +15,7 @@ const defaultKnexConfig = {
   useNullAsDefault: true,
 };
 
-export default {
+const knexConfig = {
   development: {
     ...defaultKnexConfig,
     connection: { filename: config.dbFilename },
@@ -25,3 +25,5 @@ export default {
     connection: { filename: config.dbTestFilename },
   },
 };
+
+export default knexConfig[config.env];
